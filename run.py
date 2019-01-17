@@ -10,6 +10,7 @@ from mssql import *
 # from ReadConf import *
 # import os
 from shellcopy import *
+import shutil
 import decimal
 
 PARA = conf()#  获取配置文件
@@ -44,6 +45,15 @@ def find_file():
 		# return []
 
 
+def generate_file(src_file, num):
+	"""根据原文件生成指定数量的文件"""
+	filepath = src_file.rpartition('\\')[0]+'\\'  # 提取路径
+	filename = src_file.split('\\')[-1].split('.')[0]  # 提取文件名
+	filesuffix = src_file.split('\\')[-1].split('.')[1]  # 提取后缀名
+	for i in range(num):
+		dst_file = filepath+filename+str(i)+'.'+filesuffix  # 新生成的文件
+		shutil.copyfile(src_file, dst_file)
+
 def main():
 	"""将指定文件重命名，复制到指定文件夹"""
 	(filename, paths) = get_filepath() # 获取目标文件的名字列表、相对路径
@@ -52,7 +62,7 @@ def main():
 		try:
 			for i in range(len(abspath)):
 				os.makedirs(abspath[i])# 创建目标文件路径
-				logging.info('任务%s:文件夹->%s 创建成功'%(str(i),abspath[i]))
+				logging.info('任务%s:文件夹->%s 创建成功'%(str(i), abspath[i]))
 		except OSError as e:
 			logging.warning(str(e))
 		srcname = find_file()
@@ -82,4 +92,5 @@ def main():
 	
 		
 if __name__ == '__main__':
-	main()
+	# main()
+	generate_file(r'E:\1\2ewrfewr.dcm', 2000)

@@ -9,10 +9,10 @@
 from ReadConf import *
 # import os
 
-def openshare(path, user, pwd):
+def openshare(path, pwd, user):
 	"""创建共享路径"""
 	try:
-		cmd = 'net user H:%s %s/%s'%(path, user, pwd)
+		cmd = 'net use H: %s %s/%s'%(path, pwd, user)
 		logging.info('%s'%cmd)
 		os.popen(cmd)
 	except OSError as e:
@@ -30,7 +30,7 @@ def closeshare():
 def shellcopy(srcfolder, dstfolder):
 	"""复制文件夹"""
 	try:
-		cmd = 'xcopy %s %s /e'%(srcfolder, dstfolder)
+		cmd = 'xcopy %s %s /e /y'%(srcfolder, dstfolder)
 		logging.info('%s' % cmd)
 		os.popen(cmd)
 	except OSError as e:
